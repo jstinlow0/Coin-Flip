@@ -11,6 +11,7 @@ android {
     }
     signingConfigs {
         // Fixed key committed to the repo so new versions install over old ones.
+        // shortcut: the key is public, so anyone can sign an "update"; only install from our release link. Move to a new key in a GitHub secret before the app gets permissions or stores data.
         shared { storeFile file('coinflip.keystore'); storePassword 'coinflip'; keyAlias 'coinflip'; keyPassword 'coinflip' }
     }
     buildTypes { release { minifyEnabled false; signingConfig signingConfigs.shared } }

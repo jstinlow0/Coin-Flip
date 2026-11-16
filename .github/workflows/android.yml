@@ -5,6 +5,8 @@ on:
     paths: ['android/**', '.github/workflows/android.yml']
   workflow_dispatch:
 
+concurrency: android-release
+
 permissions:
   contents: write
 
@@ -31,8 +33,9 @@ jobs:
       - name: Publish to "Latest widget" release
         env:
           GH_TOKEN: ${{ github.token }}
+        # Replace the file in place so the install link never 404s; create the release only the first time.
         run: |
-          gh release delete widget-latest --yes --cleanup-tag || true
+          gh release upload widget-latest CoinFlip.apk --clobber || \
           gh release create widget-latest CoinFlip.apk \
             --title "Coin Flip widget (latest)" \
             --notes "Open this page on your Android phone and tap CoinFlip.apk to download and install." \
